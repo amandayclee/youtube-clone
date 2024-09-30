@@ -2,6 +2,7 @@
 
 Link for [Youtube Clone](https://yt-web-client-815323102848.us-central1.run.app/).
 
+This project aims to create a simplified version of a video-sharing platform, inspired by YouTube. While we won't be replicating all of YouTube's features, we'll focus on implementing the essential functions that define such a platform.
 
 # Screenshot
 ## As a Visitor
@@ -10,8 +11,11 @@ Link for [Youtube Clone](https://yt-web-client-815323102848.us-central1.run.app/
 ## As a User
 
 # Technologies Used
-- Javascript, Typescript
-- GCP (Cloud Run, Functions, Pub/Sub, Cloud Storage, Firestore)
+- Javascript (Next.js, Express.js), Typescript
+- FFmpeg
+- Docker
+- Google Cloud (Storage, Pub/Sub, Run)
+- Firebase (Auth, Functions, Firestore)
 
 # Project
 
