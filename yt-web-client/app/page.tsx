@@ -3,20 +3,18 @@ import Link from 'next/link';
 import { getVideos } from './firebase/functions';
 import styles from './page.module.css'
 
-
 export default async function Home() {
   const videos = await getVideos();
 
   return (
-    <main>
+    <main className={styles.container}> {/* Use the new container class */}
       {
         videos.map((video) => (
-          <div key={video.id}>
+          <div key={video.id} className={styles.videoContainer}>
             <Link href={`/watch?v=${video.filename}`}>
-              <Image src={'/thumbnail.png'} alt='video' width={120} height={80}
-                className={styles.thumbnail}/>
+              <Image src={'/thumbnail.png'} alt='video' width={120} height={80} className={styles.thumbnail} />
             </Link>
-            <h3>{video.title || 'Untitled Video'}</h3>
+            <h3>Title: {video.title || 'Untitled Video'}</h3>
             <p>
               {video.description ? 
                 (video.description.length > 100 ? 
@@ -32,4 +30,5 @@ export default async function Home() {
     </main>
   )
 }
+
 export const revalidate = 30;

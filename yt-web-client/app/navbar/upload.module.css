@@ -1,13 +1,20 @@
 .uploadForm {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
-  max-width: 500px;
+  max-width: 800px;
   margin: 0 auto;
+}
+
+.inputsContainer {
+  display: flex; /* 將輸入框和按鈕設置為水平排列 */
+  align-items: stretch; /* 使所有元素等高 */
+  gap: 1rem; /* 設置間距 */
 }
 
 .fileInputWrapper {
   position: relative;
+  flex: 0 1 auto;
 }
 
 .uploadInput {
@@ -38,15 +45,19 @@
 
 .titleInput,
 .descriptionInput {
-  width: 100%;
+  flex: 1;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
+.titleInput {
+  min-height: 38px;
+}
+
 .descriptionInput {
-  min-height: 100px;
-  resize: vertical;
+  min-height: 38px;
+  resize: none;
 }
 
 .submitButton {
@@ -56,6 +67,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  align-self: stretch;
 }
 
 .submitButton:disabled {
