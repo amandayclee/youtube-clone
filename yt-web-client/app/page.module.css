@@ -1,4 +1,21 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+}
+
 .thumbnail {
-    margin: 10px;
-  }
-  
+  margin-bottom: 10px;
+}
+
+.videoContainer {
+  flex: 0 0 23%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}

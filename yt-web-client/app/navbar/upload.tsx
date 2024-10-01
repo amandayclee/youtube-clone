@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { uploadVideo } from "../firebase/functions";
-
 import styles from "./upload.module.css";
 
 export default function Upload() {
@@ -56,23 +55,26 @@ export default function Upload() {
           {file ? file.name : 'Choose Video'}
         </label>
       </div>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Video Title"
-        required
-        className={styles.titleInput}
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Video Description (optional)"
-        className={styles.descriptionInput}
-      />
-      <button type="submit" className={styles.submitButton} disabled={!file || !title}>
-        Upload Video
-      </button>
+
+      <div className={styles.inputsContainer}> {/* 將標題和描述放入並排的容器 */}
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Video Title"
+          required
+          className={styles.titleInput}
+        />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Video Description (optional)"
+          className={styles.descriptionInput}
+        />
+        <button type="submit" className={styles.submitButton} disabled={!file || !title}>
+          Upload Video
+        </button>
+      </div>
     </form>
   );
 }
