@@ -59,7 +59,18 @@ export const generateUploadUrl = onCall({maxInstances: 1}, async (request) => {
     expires: Date.now() + 15 * 60 * 1000, // 15 minutes
   });
 
-  return {url, fileName};
+  // Create a document in Firestore with initial metadata
+  const videoId = fileName.split(".")[0];
+  await firestore.collection(videoCollectionId).doc(videoId).set({
+    id: videoId,
+    uid: auth.uid,
+    filename: fileName,
+    status: "processing",
+    title: data.title || "",
+    description: data.description || "",
+  });
+
+  return {url, fileName, videoId};
 });
 
 export const getVideos = onCall({maxInstances: 1}, async () => {

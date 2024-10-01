@@ -1,22 +1,64 @@
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.fileInputWrapper {
+  position: relative;
+}
+
 .uploadInput {
-    display: none; /* Hide the default input */
-  }
-  
-  .uploadButton {
-    display: flex; /* Use Flexbox to center the text */
-    justify-content: center; /* Center text horizontally */
-    align-items: center; /* Center text vertically */
-    width: 25px;
-    height: 25px;
-    border-radius: 50%; /* Make it circular */
-    color: black; /* Color of the text */
-    border: none;
-    cursor: pointer;
-    font-size: 10px;
-    padding: 0.4em;
-  }
-  
-  .uploadButton:hover {
-    background-color: rgb(230, 230, 230);
-  }
-  
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.uploadButton svg {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.5em;
+}
+
+.titleInput,
+.descriptionInput {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.descriptionInput {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submitButton {
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
