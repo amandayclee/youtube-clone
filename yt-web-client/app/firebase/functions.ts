@@ -13,9 +13,11 @@ export interface Video {
   description?: string  
 }
 
-export async function uploadVideo(file: File) {
+export async function uploadVideo(file: File, title: string, description: string) {
   const response: any = await generateUploadUrlFunction({
-    fileExtension: file.name.split('.').pop()
+    fileExtension: file.name.split('.').pop(),
+    title,
+    description
   });
 
   // Upload the file to the signed URL
@@ -32,5 +34,12 @@ export async function uploadVideo(file: File) {
 
 export async function getVideos() {
   const response: any = await getVideosFunction();
-  return response.data as Video[];
+  return (response.data as any[]).map(video => ({
+    id: video.id,
+    uid: video.uid,
+    filename: video.filename,
+    status: video.status,
+    title: video.title || 'Untitled Video',
+    description: video.description || 'No description'
+  })) as Video[];
 }

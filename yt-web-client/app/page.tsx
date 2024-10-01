@@ -11,10 +11,22 @@ export default async function Home() {
     <main>
       {
         videos.map((video) => (
-          <Link href={`/watch?v=${video.filename}`} key={video.id}>
-            <Image src={'/thumbnail.png'} alt='video' width={120} height={80}
-              className={styles.thumbnail}/>
-          </Link>
+          <div key={video.id}>
+            <Link href={`/watch?v=${video.filename}`}>
+              <Image src={'/thumbnail.png'} alt='video' width={120} height={80}
+                className={styles.thumbnail}/>
+            </Link>
+            <h3>{video.title || 'Untitled Video'}</h3>
+            <p>
+              {video.description ? 
+                (video.description.length > 100 ? 
+                  video.description.substring(0, 97) + '...' : 
+                  video.description
+                ) : 
+                'No description'
+              }
+            </p>
+          </div>
         ))
       }
     </main>
