@@ -7,14 +7,20 @@ export default async function Home() {
   const videos = await getVideos();
 
   return (
-    <main className={styles.container}> {/* Use the new container class */}
+    <main className={styles.container}>
       {
         videos.map((video) => (
           <div key={video.id} className={styles.videoContainer}>
             <Link href={`/watch?v=${video.filename}`}>
-              <Image src={'/thumbnail.png'} alt='video' width={120} height={80} className={styles.thumbnail} />
+              <Image 
+                src={video.thumbnailUrl || '/thumbnail.png'} 
+                alt={video.title || 'Video thumbnail'} 
+                width={120} 
+                height={80} 
+                className={styles.thumbnail}
+              />
             </Link>
-            <h3>Title: {video.title || 'Untitled Video'}</h3>
+            <h3>{video.title || 'Untitled Video'}</h3>
             <p>
               {video.description ? 
                 (video.description.length > 100 ? 
