@@ -9,8 +9,8 @@ const nextConfig = {
           pathname: '/ycleee-yt-thumbnails/**',
         },
       ],
+      unoptimized: true,
     },
   };
   
   export default nextConfig;
-  

@@ -12,6 +12,7 @@ const firestore = new Firestore();
 const storage = new Storage();
 
 const rawVideoBucketName = "ycleee-yt-raw-videos";
+const thumbnailBucketName = "ycleee-yt-thumbnails";
 
 const videoCollectionId = "videos";
 
@@ -21,7 +22,8 @@ export interface Video {
   filename?: string,
   status?: "processing" | "processed",
   title?: string,
-  description?: string
+  description?: string,
+  thumbnailUrl?: string
 }
 
 export const createUser = functions.auth.user().onCreate((user) => {
@@ -59,6 +61,16 @@ export const generateUploadUrl = onCall({maxInstances: 1}, async (request) => {
     expires: Date.now() + 15 * 60 * 1000, // 15 minutes
   });
 
+  const thumbnailFileName = `${auth.uid}-${Date.now()}-thumbnail.jpg`;
+
+  const [thumbnailUrl] = await storage.bucket(thumbnailBucketName)
+    .file(thumbnailFileName).getSignedUrl({
+      version: "v4",
+      action: "write",
+      expires: Date.now() + 15 * 60 * 1000, // 15 minutes
+    });
+
+
   // Create a document in Firestore with initial metadata
   const videoId = fileName.split(".")[0];
   await firestore.collection(videoCollectionId).doc(videoId).set({
@@ -68,9 +80,10 @@ export const generateUploadUrl = onCall({maxInstances: 1}, async (request) => {
     status: "processing",
     title: data.title || "",
     description: data.description || "",
+    thumbnailUrl: `https://storage.googleapis.com/${thumbnailBucketName}/${thumbnailFileName}`,
   });
 
-  return {url, fileName, videoId};
+  return {url, fileName, videoId, thumbnailUrl, thumbnailFileName};
 });
 
 export const getVideos = onCall({maxInstances: 1}, async () => {
@@ -78,3 +91,21 @@ export const getVideos = onCall({maxInstances: 1}, async () => {
     await firestore.collection(videoCollectionId).limit(10).get();
   return querySnapshot.docs.map((doc) => doc.data());
 });
+
+export const makeThumbnailPublic = onCall({maxInstances: 1},
+  async (request) => {
+    if (!request.auth) {
+      throw new functions.https.HttpsError(
+        "unauthenticated",
+        "The function must be called while authenticated."
+      );
+    }
+
+    const {thumbnailFileName} = request.data;
+    const file = storage.bucket(thumbnailBucketName).file(thumbnailFileName);
+    await file.makePublic();
+
+    console.log(`File ${thumbnailFileName} is now public.`);
+    return {success: true, message: "File is now public"};
+  }
+);
