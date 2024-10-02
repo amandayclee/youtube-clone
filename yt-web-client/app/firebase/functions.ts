@@ -3,6 +3,7 @@ import { functions } from './firebase';
 
 const generateUploadUrlFunction = httpsCallable(functions, 'generateUploadUrl');
 const getVideosFunction = httpsCallable(functions, 'getVideos');
+const makeThumbnailPublicFunction = httpsCallable(functions, 'makeThumbnailPublic');
 
 export interface Video {
   id?: string,
@@ -14,7 +15,7 @@ export interface Video {
   thumbnailUrl?: string
 }
 
-export async function uploadVideo(file: File, title: string, description: string) {
+export async function uploadVideo(file: File, thumbnail: File, title: string, description: string) {
   const response: any = await generateUploadUrlFunction({
     fileExtension: file.name.split('.').pop(),
     title,
@@ -22,7 +23,7 @@ export async function uploadVideo(file: File, title: string, description: string
   });
 
   // Upload the file to the signed URL
-  const uploadResult = await fetch(response?.data?.url, {
+  await fetch(response?.data?.url, {
     method: 'PUT',
     body: file,
     headers: {
@@ -30,7 +31,17 @@ export async function uploadVideo(file: File, title: string, description: string
     },
   });
 
-  return uploadResult;
+  await fetch(response?.data?.thumbnailUrl, {
+    method: 'PUT',
+    body: thumbnail,
+    headers: {
+      'Content-Type': thumbnail.type,
+    },
+  });
+
+  await makeThumbnailPublicFunction({ thumbnailFileName: response.data.thumbnailFileName });
+
+  return response.data;
 }
 
 export async function getVideos() {
@@ -41,6 +52,7 @@ export async function getVideos() {
     filename: video.filename,
     status: video.status,
     title: video.title || 'Untitled Video',
-    description: video.description || 'No description'
+    description: video.description || 'No description',
+    thumbnailUrl: video.thumbnailUrl
   })) as Video[];
 }
