@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./navbar/navbar";
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -26,9 +27,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      
+      <body className="bg-zinc-900 ">
         <Navbar />
-        {children}
+        {/*  */}
+
+        <div className="ml-20">{children}</div>
       </body>
     </html>
   );
