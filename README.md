@@ -6,12 +6,21 @@ This project aims to create a simplified version of a video-sharing platform, in
 
 # Screenshot
 ## As a Visitor
-
+<p>
+    <img src="./assets/img/landing.png" height="300">
+</p>
 
 ## As a User
+<p>
+    <img src="./assets/img/login.png" height="300">
+    <img src="./assets/img/upload.png" height="300">
+    <img src="./assets/img/processsing.png" height="300">
+    <img src="./assets/img/processed.png" height="300">
+</p>
 
 # Technologies Used
 - Javascript (Next.js, Express.js), Typescript
+- CSS (Tailwind)
 - FFmpeg
 - Docker
 - Google Cloud (Storage, Pub/Sub, Run)
@@ -24,10 +33,10 @@ This project aims to create a simplified version of a video-sharing platform, in
 Planned future enhancements:
 
  - [ ] Add user's profile picture and email to Web Client
- - [ ] (Bug fix) Allow users to upload multiple videos without refreshing the page
-  - [ ] Allow users to upload thumbnails for their videos
-  - [ ] Allow user's to add a title and description to their videos
-  - [ ] Show the uploader of a video
+ - [x] (Bug fix) Allow users to upload multiple videos without refreshing the page
+  - [x] Allow users to upload thumbnails for their videos
+  - [x] Allow user's to add a title and description to their videos
+  - [x] Show the uploader of a video
   - [ ] Allow user's to subscribe to other user's channels
   - [ ] Clean up raw videos in Cloud Storage after processing
   - [ ] Use a CDN to serve videos
