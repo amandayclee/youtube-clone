@@ -1,8 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { uploadVideo } from "../firebase/functions";
 import { useRouter } from "next/navigation";
+
+export interface Video {
+  id?: string;
+  uid?: string;
+  filename?: string;
+  status?: "processing" | "processed";
+  title?: string;
+  description?: string;
+  thumbnailUrl?: string;
+}
+
+
+type UploadVideoFunction = (
+  file: File,
+  thumbnail: File,
+  title: string,
+  description: string
+) => Promise<Video>;
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
@@ -19,16 +37,14 @@ export default function Upload() {
     }
   };
 
-  const handleThumbnailChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleThumbnailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.item(0);
     if (selectedFile) {
       setThumbnail(selectedFile);
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!file || !title || !thumbnail) {
       alert("Please select a video file, thumbnail, and enter a title.");
@@ -38,7 +54,9 @@ export default function Upload() {
     setIsLoading(true);
 
     try {
-      const response = await uploadVideo(file, thumbnail, title, description);
+      const uploadVideoTyped = uploadVideo as UploadVideoFunction;
+      const response: Video = await uploadVideoTyped(file, thumbnail, title, description);
+      console.log('Upload response:', response);
 
       setFile(null);
       setThumbnail(null);
@@ -46,9 +64,7 @@ export default function Upload() {
       setDescription("");
       // Reset file inputs
       const fileInput = document.getElementById("upload") as HTMLInputElement;
-      const thumbnailInput = document.getElementById(
-        "thumbnail"
-      ) as HTMLInputElement;
+      const thumbnailInput = document.getElementById("thumbnail") as HTMLInputElement;
       if (fileInput) fileInput.value = "";
       if (thumbnailInput) thumbnailInput.value = "";
 
