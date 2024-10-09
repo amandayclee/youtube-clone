@@ -14,7 +14,6 @@ export interface Video {
   thumbnailUrl?: string;
 }
 
-
 type UploadVideoFunction = (
   file: File,
   thumbnail: File,

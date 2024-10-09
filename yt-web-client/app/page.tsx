@@ -5,7 +5,13 @@ import { useState, useEffect, useRef } from "react";
 import { getVideos } from "./firebase/functions";
 import { Heart, Bookmark, Loader } from "lucide-react";
 
-
+interface Video {
+  id: string;
+  filename: string;
+  title?: string;
+  description?: string;
+  thumbnailUrl?: string;
+}
 
 // Fake comments data
 const fakeComments = [
@@ -27,19 +33,19 @@ const fakeComments = [
   { id: 12, user: "ZoeyFitness", text: "You're crushing it! 💪💯 Go you!" },
 ];
 
-function VideoModal({ video, onClose }) {
+function VideoModal({ video, onClose }: { video: Video; onClose: () => void }) {
   const [isLoved, setIsLoved] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isVideoAvailable, setIsVideoAvailable] = useState(true);
-  const commentsRef = useRef(null);
+  const commentsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (commentsRef.current) {
         setScrollPosition((prevPosition) => {
           const newPosition = prevPosition + 1;
-          if (newPosition >= commentsRef.current.scrollHeight) {
+          if (newPosition >= commentsRef.current!.scrollHeight) {
             return 0;
           }
           return newPosition;
@@ -147,8 +153,8 @@ function VideoModal({ video, onClose }) {
   );
 }
 
-function VideoGrid({ videos }) {
-  const [selectedVideo, setSelectedVideo] = useState(null);
+function VideoGrid({ videos }: { videos: Video[] }) {
+  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
 
   return (
     <>
@@ -187,12 +193,20 @@ function VideoGrid({ videos }) {
 }
 
 export default function Home() {
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState<Video[]>([]);
 
   useEffect(() => {
     async function fetchVideos() {
       const fetchedVideos = await getVideos();
-      setVideos(fetchedVideos);
+      const validatedVideos: Video[] = fetchedVideos.map(video => ({
+        ...video,
+        id: video.id || '',  // 確保 id 始終是字符串
+        filename: video.filename || '',
+        title: video.title || 'Untitled',
+        description: video.description || '',
+        thumbnailUrl: video.thumbnailUrl || '/thumbnail.png'
+      }));
+      setVideos(validatedVideos);
     }
     fetchVideos();
   }, []);
