@@ -14,7 +14,7 @@ This project aims to create a simplified version of a video-sharing platform, in
 <p>
     <img src="./assets/img/login.png" height="300">
     <img src="./assets/img/upload.png" height="300">
-    <img src="./assets/img/processsing.png" height="300">
+    <img src="./assets/img/processing.png" height="300">
     <img src="./assets/img/processed.png" height="300">
 </p>
 
