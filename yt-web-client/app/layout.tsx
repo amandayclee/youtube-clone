@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./navbar/navbar";
 
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -26,13 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      
-      <body className="bg-zinc-900 ">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="bg-zinc-900 flex h-screen overflow-hidden">
         <Navbar />
-        {/*  */}
-
-        <div className="ml-20">{children}</div>
+        <main className="flex-1 ml-20 overflow-y-auto">
+          <div className="mt-16 p-4">{children}</div>
+        </main>
       </body>
     </html>
   );
