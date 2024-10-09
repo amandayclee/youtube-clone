@@ -37,6 +37,7 @@ Planned future enhancements:
   - [x] Allow users to upload thumbnails for their videos
   - [x] Allow user's to add a title and description to their videos
   - [x] Show the uploader of a video
+  - [ ]  Allow users to add comments, bookmarks and liking
   - [ ] Allow user's to subscribe to other user's channels
   - [ ] Clean up raw videos in Cloud Storage after processing
   - [ ] Use a CDN to serve videos
