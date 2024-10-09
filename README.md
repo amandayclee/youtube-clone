@@ -33,7 +33,7 @@ This project aims to create a simplified version of a video-sharing platform, in
 Planned future enhancements:
 
  - [ ] Add user's profile picture and email to Web Client
- - [x] (Bug fix) Allow users to upload multiple videos without refreshing the page
+ - [ ] (Bug fix) Allow users to upload multiple videos without refreshing the page
   - [x] Allow users to upload thumbnails for their videos
   - [x] Allow user's to add a title and description to their videos
   - [x] Show the uploader of a video
